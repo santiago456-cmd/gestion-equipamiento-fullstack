@@ -1,0 +1,107 @@
+/* SolicitudTable.module.css */
+
+.tableCard {
+    background-color: var(--color-surface-container-lowest);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+.tableWrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tableHead {
+    background-color: var(--color-surface-container-low);
+    border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.th {
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-label-uppercase);
+    line-height: var(--line-height-label-uppercase);
+    letter-spacing: var(--letter-spacing-label-uppercase);
+    font-weight: var(--font-weight-label-uppercase);
+    color: var(--color-on-surface-variant);
+    white-space: nowrap;
+}
+
+.thCenter {
+    text-align: center;
+}
+
+.thRight {
+    text-align: right;
+}
+
+.tr {
+    border-bottom: 1px solid var(--color-outline-variant);
+    transition: background-color 0.12s ease;
+}
+
+.tr:last-child {
+    border-bottom: none;
+}
+
+.tr:hover {
+    background-color: var(--color-surface-container-low);
+}
+
+.td {
+    padding: var(--space-md);
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    color: var(--color-on-surface);
+    vertical-align: middle;
+}
+
+.tdMuted {
+    color: var(--color-on-surface-variant);
+}
+
+.tdCenter {
+    text-align: center;
+}
+
+.tdRight {
+    text-align: right;
+}
+
+.tdId {
+    font-weight: 500;
+}
+
+/* User cell */
+.userCell {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+/* Action link */
+.actionLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--color-primary);
+    font-size: var(--font-size-body-sm);
+    font-weight: 500;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: color 0.15s ease;
+    text-decoration: none;
+}
+
+.actionLink:hover {
+    color: var(--color-on-surface);
+    text-decoration: underline;
+}

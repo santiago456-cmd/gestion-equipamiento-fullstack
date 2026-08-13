@@ -1,0 +1,97 @@
+/* TopBar.module.css */
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-outline-variant);
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-lg);
+    width: 100%;
+}
+
+/* Mobile brand */
+.mobileBrand {
+    display: flex;
+    align-items: center;
+}
+
+.mobileBrandText {
+    font-size: var(--font-size-title-md);
+    font-weight: 900;
+    color: var(--color-primary);
+}
+
+@media (min-width: 768px) {
+    .mobileBrand {
+        display: none;
+    }
+}
+
+/* Search spacer */
+.searchWrapper {
+    flex: 1;
+}
+
+/* Actions */
+.actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+}
+
+.divider {
+    height: 32px;
+    width: 1px;
+    background-color: var(--color-outline-variant);
+}
+
+/* User info */
+.userInfo {
+    display: none;
+    flex-direction: column;
+    text-align: right;
+}
+
+@media (min-width: 640px) {
+    .userInfo {
+        display: flex;
+    }
+}
+
+.userName {
+    font-size: var(--font-size-body-sm);
+    font-weight: 600;
+    color: var(--color-on-surface);
+    line-height: var(--line-height-body-sm);
+}
+
+.userRole {
+    font-size: 11px;
+    color: var(--color-secondary);
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-label-uppercase);
+    line-height: 1;
+}
+
+.logoutButton {
+    font-size: var(--font-size-label-uppercase);
+    letter-spacing: var(--letter-spacing-label-uppercase);
+    font-weight: var(--font-weight-label-uppercase);
+    color: var(--color-secondary);
+    transition: color 0.15s ease;
+}
+
+.logoutButton:hover {
+    color: var(--color-primary);
+}
+
+.userCluster {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}

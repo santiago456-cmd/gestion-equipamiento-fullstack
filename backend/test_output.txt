@@ -1,0 +1,251 @@
+
+> gestion-de-equipamiento@1.0.0 test
+> node --experimental-vm-modules node_modules/jest/bin/jest.js
+
+(node:5484) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:19988) ExperimentalWarning: VM Modules is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+FAIL tests/auth.test.js
+  ● Console
+
+    console.log
+      🚀 api-solicitudes-equipamientos escuchando en http://localhost:3000
+
+      at Server.log (src/app.js:52:17)
+
+  ● Pruebas del Módulo de Autenticación › Debería registrar un nuevo usuario exitosamente (201)
+
+
+
+    [0m [90m 11 |[39m     app [33m=[39m createApp()[33m;[39m
+     [90m 12 |[39m     server [33m=[39m app[33m.[39mlisten([35m0[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 13 |[39m     [36mawait[39m sequelize[33m.[39msync({ force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m     [31m[1m^[22m[39m
+     [90m 14 |[39m   })[33m;[39m
+     [90m 15 |[39m
+     [90m 16 |[39m   afterAll([36masync[39m () [33m=>[39m {[0m
+
+      at Database.<anonymous> (node_modules/sequelize/src/dialects/sqlite/query.js:236:27)
+      at node_modules/sequelize/src/dialects/sqlite/query.js:234:50
+      at Query.run (node_modules/sequelize/src/dialects/sqlite/query.js:234:12)
+      at node_modules/sequelize/src/sequelize.js:650:28
+      at SQLiteQueryInterface.dropTable (node_modules/sequelize/src/dialects/abstract/query-interface.js:265:5)
+      at Solicitud.drop (node_modules/sequelize/src/model.js:1448:12)
+      at Sequelize.drop (node_modules/sequelize/src/sequelize.js:927:9)
+      at Sequelize.sync (node_modules/sequelize/src/sequelize.js:807:7)
+      at Object.<anonymous> (tests/auth.test.js:13:5)
+
+  ● Pruebas del Módulo de Autenticación › Debería rechazar el registro si el correo electrónico ya existe (500)
+
+
+
+    [0m [90m 11 |[39m     app [33m=[39m createApp()[33m;[39m
+     [90m 12 |[39m     server [33m=[39m app[33m.[39mlisten([35m0[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 13 |[39m     [36mawait[39m sequelize[33m.[39msync({ force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m     [31m[1m^[22m[39m
+     [90m 14 |[39m   })[33m;[39m
+     [90m 15 |[39m
+     [90m 16 |[39m   afterAll([36masync[39m () [33m=>[39m {[0m
+
+      at Database.<anonymous> (node_modules/sequelize/src/dialects/sqlite/query.js:236:27)
+      at node_modules/sequelize/src/dialects/sqlite/query.js:234:50
+      at Query.run (node_modules/sequelize/src/dialects/sqlite/query.js:234:12)
+      at node_modules/sequelize/src/sequelize.js:650:28
+      at SQLiteQueryInterface.dropTable (node_modules/sequelize/src/dialects/abstract/query-interface.js:265:5)
+      at Solicitud.drop (node_modules/sequelize/src/model.js:1448:12)
+      at Sequelize.drop (node_modules/sequelize/src/sequelize.js:927:9)
+      at Sequelize.sync (node_modules/sequelize/src/sequelize.js:807:7)
+      at Object.<anonymous> (tests/auth.test.js:13:5)
+
+  ● Pruebas del Módulo de Autenticación › Debería iniciar sesión correctamente y retornar un JWT (200)
+
+
+
+    [0m [90m 11 |[39m     app [33m=[39m createApp()[33m;[39m
+     [90m 12 |[39m     server [33m=[39m app[33m.[39mlisten([35m0[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 13 |[39m     [36mawait[39m sequelize[33m.[39msync({ force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m     [31m[1m^[22m[39m
+     [90m 14 |[39m   })[33m;[39m
+     [90m 15 |[39m
+     [90m 16 |[39m   afterAll([36masync[39m () [33m=>[39m {[0m
+
+      at Database.<anonymous> (node_modules/sequelize/src/dialects/sqlite/query.js:236:27)
+      at node_modules/sequelize/src/dialects/sqlite/query.js:234:50
+      at Query.run (node_modules/sequelize/src/dialects/sqlite/query.js:234:12)
+      at node_modules/sequelize/src/sequelize.js:650:28
+      at SQLiteQueryInterface.dropTable (node_modules/sequelize/src/dialects/abstract/query-interface.js:265:5)
+      at Solicitud.drop (node_modules/sequelize/src/model.js:1448:12)
+      at Sequelize.drop (node_modules/sequelize/src/sequelize.js:927:9)
+      at Sequelize.sync (node_modules/sequelize/src/sequelize.js:807:7)
+      at Object.<anonymous> (tests/auth.test.js:13:5)
+
+  ● Pruebas del Módulo de Autenticación › Debería rechazar el inicio de sesión con contraseña inválida (500)
+
+
+
+    [0m [90m 11 |[39m     app [33m=[39m createApp()[33m;[39m
+     [90m 12 |[39m     server [33m=[39m app[33m.[39mlisten([35m0[39m)[33m;[39m
+    [31m[1m>[22m[39m[90m 13 |[39m     [36mawait[39m sequelize[33m.[39msync({ force[33m:[39m [36mtrue[39m })[33m;[39m
+     [90m    |[39m     [31m[1m^[22m[39m
+     [90m 14 |[39m   })[33m;[39m
+     [90m 15 |[39m
+     [90m 16 |[39m   afterAll([36masync[39m () [33m=>[39m {[0m
+
+      at Database.<anonymous> (node_modules/sequelize/src/dialects/sqlite/query.js:236:27)
+      at node_modules/sequelize/src/dialects/sqlite/query.js:234:50
+      at Query.run (node_modules/sequelize/src/dialects/sqlite/query.js:234:12)
+      at node_modules/sequelize/src/sequelize.js:650:28
+      at SQLiteQueryInterface.dropTable (node_modules/sequelize/src/dialects/abstract/query-interface.js:265:5)
+      at Solicitud.drop (node_modules/sequelize/src/model.js:1448:12)
+      at Sequelize.drop (node_modules/sequelize/src/sequelize.js:927:9)
+      at Sequelize.sync (node_modules/sequelize/src/sequelize.js:807:7)
+      at Object.<anonymous> (tests/auth.test.js:13:5)
+
+FAIL tests/solicitudes.test.js
+  ● Console
+
+    console.log
+      🚀 api-solicitudes-equipamientos escuchando en http://localhost:3000
+
+      at Server.log (src/app.js:52:17)
+
+    console.error
+      ❌ Error capturado en el flujo: SQLITE_ERROR: no such table: USUARIOS
+
+    [0m [90m 1 |[39m [36mexport[39m [36mfunction[39m errorMiddleware(err[33m,[39m req[33m,[39m res[33m,[39m next) {
+    [31m[1m>[22m[39m[90m 2 |[39m     console[33m.[39merror([32m`❌ Error capturado en el flujo: ${err.message}`[39m)[33m;[39m
+     [90m   |[39m             [31m[1m^[22m[39m
+     [90m 3 |[39m
+     [90m 4 |[39m     [36mif[39m (err[33m.[39mname [33m===[39m [32m"SequelizeValidationError"[39m [33m||[39m err[33m.[39mname [33m===[39m [32m"SequelizeUniqueConstraintError"[39m) {
+     [90m 5 |[39m         [36mreturn[39m res[33m.[39mstatus([35m400[39m)[33m.[39mjson({[0m
+
+      at error (src/middlewares/errorMiddleware.js:2:13)
+      at Layer.handleError (node_modules/router/lib/layer.js:116:17)
+      at trimPrefix (node_modules/router/index.js:340:13)
+      at node_modules/router/index.js:297:9
+      at processParams (node_modules/router/index.js:582:12)
+      at next (node_modules/router/index.js:291:5)
+      at Layer.handleError (node_modules/router/lib/layer.js:111:12)
+      at trimPrefix (node_modules/router/index.js:340:13)
+      at node_modules/router/index.js:297:9
+      at processParams (node_modules/router/index.js:582:12)
+      at next (node_modules/router/index.js:291:5)
+      at node_modules/router/index.js:688:15
+      at next (node_modules/router/index.js:276:14)
+      at next (node_modules/router/lib/route.js:132:14)
+      at next (src/controllers/authController.js:13:7)
+
+    console.error
+      ❌ Error capturado en el flujo: SQLITE_ERROR: no such table: USUARIOS
+
+    [0m [90m 1 |[39m [36mexport[39m [36mfunction[39m errorMiddleware(err[33m,[39m req[33m,[39m res[33m,[39m next) {
+    [31m[1m>[22m[39m[90m 2 |[39m     console[33m.[39merror([32m`❌ Error capturado en el flujo: ${err.message}`[39m)[33m;[39m
+     [90m   |[39m             [31m[1m^[22m[39m
+     [90m 3 |[39m
+     [90m 4 |[39m     [36mif[39m (err[33m.[39mname [33m===[39m [32m"SequelizeValidationError"[39m [33m||[39m err[33m.[39mname [33m===[39m [32m"SequelizeUniqueConstraintError"[39m) {
+     [90m 5 |[39m         [36mreturn[39m res[33m.[39mstatus([35m400[39m)[33m.[39mjson({[0m
+
+      at error (src/middlewares/errorMiddleware.js:2:13)
+      at Layer.handleError (node_modules/router/lib/layer.js:116:17)
+      at trimPrefix (node_modules/router/index.js:340:13)
+      at node_modules/router/index.js:297:9
+      at processParams (node_modules/router/index.js:582:12)
+      at next (node_modules/router/index.js:291:5)
+      at Layer.handleError (node_modules/router/lib/layer.js:111:12)
+      at trimPrefix (node_modules/router/index.js:340:13)
+      at node_modules/router/index.js:297:9
+      at processParams (node_modules/router/index.js:582:12)
+      at Immediate.next (node_modules/router/index.js:291:5)
+      at Immediate._onImmediate (node_modules/router/index.js:688:15)
+
+  ● Pruebas del Dominio de Solicitudes y Equipos › Debería rechazar el acceso a aprobar solicitudes si el rol es Alumno (403)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 403
+    Received: 401
+
+    [0m [90m 69 |[39m       [33m.[39msend()[33m;[39m
+     [90m 70 |[39m
+    [31m[1m>[22m[39m[90m 71 |[39m     expect(res[33m.[39mstatus)[33m.[39mtoBe([35m403[39m)[33m;[39m
+     [90m    |[39m                        [31m[1m^[22m[39m
+     [90m 72 |[39m   })[33m;[39m
+     [90m 73 |[39m
+     [90m 74 |[39m   [90m// --- CAMINO FELIZ: Listado y filtrado ---[39m[0m
+
+      at Object.toBe (tests/solicitudes.test.js:71:24)
+
+  ● Pruebas del Dominio de Solicitudes y Equipos › Debería listar las solicitudes aplicando filtros opcionales (200)
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 200
+    Received: 401
+
+    [0m [90m 78 |[39m       [33m.[39m[36mset[39m([32m'Authorization'[39m[33m,[39m [32m`Bearer ${tokenAlumno}`[39m)[33m;[39m
+     [90m 79 |[39m
+    [31m[1m>[22m[39m[90m 80 |[39m     expect(res[33m.[39mstatus)[33m.[39mtoBe([35m200[39m)[33m;[39m
+     [90m    |[39m                        [31m[1m^[22m[39m
+     [90m 81 |[39m     expect(res[33m.[39mbody)[33m.[39mtoBeDefined()[33m;[39m
+     [90m 82 |[39m   })[33m;[39m
+     [90m 83 |[39m[0m
+
+      at Object.toBe (tests/solicitudes.test.js:80:24)
+
+  ● Pruebas del Dominio de Solicitudes y Equipos › Debería devolver error al buscar el detalle de una solicitud que no existe
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 401
+    Received array: [400, 404, 500]
+
+    [0m [90m 88 |[39m       [33m.[39m[36mset[39m([32m'Authorization'[39m[33m,[39m [32m`Bearer ${tokenAlumno}`[39m)[33m;[39m
+     [90m 89 |[39m
+    [31m[1m>[22m[39m[90m 90 |[39m     expect([[35m400[39m[33m,[39m [35m404[39m[33m,[39m [35m500[39m])[33m.[39mtoContain(res[33m.[39mstatus)[33m;[39m
+     [90m    |[39m                             [31m[1m^[22m[39m
+     [90m 91 |[39m   })[33m;[39m
+     [90m 92 |[39m
+     [90m 93 |[39m   [90m// --- CAMINO NO FELIZ: Validación de Fechas Inconsistentes ---[39m[0m
+
+      at Object.toContain (tests/solicitudes.test.js:90:29)
+
+  ● Pruebas del Dominio de Solicitudes y Equipos › Debería procesar la validación al intentar crear una solicitud con fechas inconsistentes
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 401
+    Received array: [400, 422, 500]
+
+    [0m [90m 103 |[39m       })[33m;[39m
+     [90m 104 |[39m
+    [31m[1m>[22m[39m[90m 105 |[39m     expect([[35m400[39m[33m,[39m [35m422[39m[33m,[39m [35m500[39m])[33m.[39mtoContain(res[33m.[39mstatus)[33m;[39m
+     [90m     |[39m                             [31m[1m^[22m[39m
+     [90m 106 |[39m   })[33m;[39m
+     [90m 107 |[39m
+     [90m 108 |[39m   [90m// --- CAMINO NO FELIZ: Transición de Estados Inválida ---[39m[0m
+
+      at Object.toContain (tests/solicitudes.test.js:105:29)
+
+  ● Pruebas del Dominio de Solicitudes y Equipos › Debería rechazar operaciones no permitidas según el estado de la solicitud
+
+    expect(received).toContain(expected) // indexOf
+
+    Expected value: 401
+    Received array: [400, 404, 500]
+
+    [0m [90m 113 |[39m       [33m.[39msend()[33m;[39m
+     [90m 114 |[39m
+    [31m[1m>[22m[39m[90m 115 |[39m     expect([[35m400[39m[33m,[39m [35m404[39m[33m,[39m [35m500[39m])[33m.[39mtoContain(res[33m.[39mstatus)[33m;[39m
+     [90m     |[39m                             [31m[1m^[22m[39m
+     [90m 116 |[39m   })[33m;[39m
+     [90m 117 |[39m })[33m;[39m[0m
+
+      at Object.toContain (tests/solicitudes.test.js:115:29)
+
+A worker process has failed to exit gracefully and has been force exited. This is likely caused by tests leaking due to improper teardown. Try running with --detectOpenHandles to find leaks. Active timers can also cause this, ensure that .unref() was called on them.
+Test Suites: 2 failed, 2 total
+Tests:       9 failed, 1 passed, 10 total
+Snapshots:   0 total
+Time:        2.471 s
+Ran all test suites.

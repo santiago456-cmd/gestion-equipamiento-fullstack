@@ -1,0 +1,101 @@
+/* LoginPage.module.css */
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md);
+    background-color: var(--color-surface);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Subtle dot-grid background */
+.page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: radial-gradient(circle at 2px 2px, var(--color-primary) 1px, transparent 0);
+    background-size: 32px 32px;
+    pointer-events: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 440px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Brand */
+.brand {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.brandIconWrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-xl);
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    margin-bottom: var(--space-md);
+    box-shadow: var(--shadow-card);
+}
+
+.brandTitle {
+    font-size: var(--font-size-display-xl);
+    line-height: var(--line-height-display-xl);
+    letter-spacing: var(--letter-spacing-display-xl);
+    font-weight: var(--font-weight-display-xl);
+    color: var(--color-primary);
+}
+
+.brandSub {
+    font-size: var(--font-size-body-base);
+    color: var(--color-secondary);
+    margin-top: var(--space-xs);
+}
+
+/* Card */
+.card {
+    background-color: var(--color-surface-container-lowest);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    padding: var(--space-xl);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.submitWrapper {
+    padding-top: var(--space-sm);
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    margin-top: var(--space-lg);
+    font-size: var(--font-size-body-base);
+    color: var(--color-secondary);
+}
+
+.footerLink {
+    color: var(--color-primary);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.footerLink:hover {
+    text-decoration: underline;
+}

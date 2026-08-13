@@ -1,0 +1,45 @@
+/* NotFoundPage.module.css */
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md);
+    background-color: var(--color-surface);
+    text-align: center;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    max-width: 360px;
+}
+
+.icon {
+    font-size: 56px;
+    color: var(--color-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.title {
+    font-size: var(--font-size-display-xl);
+    line-height: var(--line-height-display-xl);
+    letter-spacing: var(--letter-spacing-display-xl);
+    font-weight: var(--font-weight-display-xl);
+    color: var(--color-primary);
+}
+
+.subtitle {
+    font-size: var(--font-size-title-md);
+    font-weight: var(--font-weight-title-md);
+    color: var(--color-on-surface);
+}
+
+.description {
+    font-size: var(--font-size-body-base);
+    color: var(--color-on-surface-variant);
+    margin-bottom: var(--space-md);
+}

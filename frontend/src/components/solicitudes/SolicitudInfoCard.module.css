@@ -1,0 +1,40 @@
+/* SolicitudInfoCard.module.css */
+
+.infoGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg) var(--space-md);
+}
+
+@media (max-width: 480px) {
+    .infoGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.infoGridFull {
+    grid-column: 1 / -1;
+}
+
+.infoLabel {
+    font-size: var(--font-size-label-uppercase);
+    letter-spacing: var(--letter-spacing-label-uppercase);
+    font-weight: var(--font-weight-label-uppercase);
+    color: var(--color-secondary);
+    margin-bottom: var(--space-xs);
+}
+
+.infoValue {
+    font-size: var(--font-size-body-base);
+    font-weight: 500;
+    color: var(--color-on-surface);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.userValue {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}

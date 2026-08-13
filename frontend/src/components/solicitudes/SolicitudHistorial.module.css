@@ -1,0 +1,99 @@
+/* SolicitudHistorial.module.css */
+
+.historyTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-size-body-sm);
+}
+
+.historyTh {
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-label-uppercase);
+    letter-spacing: var(--letter-spacing-label-uppercase);
+    font-weight: var(--font-weight-label-uppercase);
+    color: var(--color-on-surface-variant);
+    background-color: var(--color-surface-container-low);
+    text-align: left;
+    border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.historyTr {
+    border-bottom: 1px solid var(--color-outline-variant);
+    transition: background-color 0.12s ease;
+}
+
+.historyTr:last-child {
+    border-bottom: none;
+}
+
+.historyTr:hover {
+    background-color: var(--color-surface-container-low);
+}
+
+.historyTd {
+    padding: var(--space-sm) var(--space-md);
+    color: var(--color-on-surface);
+    vertical-align: middle;
+}
+
+.historyTdMuted {
+    color: var(--color-on-surface-variant);
+}
+
+.chipCreacion {
+    background: var(--color-secondary-container);
+    color: var(--color-on-secondary-container);
+}
+
+.chipSuccess {
+    background: var(--color-success-container);
+    color: var(--color-on-success-container);
+}
+
+.chipDanger {
+    background: var(--color-error-container);
+    color: var(--color-on-error-container);
+}
+
+.chipInfo {
+    background: var(--color-info-container);
+    color: var(--color-on-info-container);
+}
+
+.chipActualizacion {
+    background: var(--color-warning-bg);
+    color: var(--color-warning-text);
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-label-uppercase);
+    letter-spacing: var(--letter-spacing-label-uppercase);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.historyDetail {
+    display: grid;
+    gap: 0.35rem;
+}
+
+.historyDetailLine {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.historyDetailLabel {
+    font-weight: 700;
+    color: var(--color-on-surface-variant);
+}
+
+.historyDetailValue {
+    color: var(--color-on-surface);
+}
+

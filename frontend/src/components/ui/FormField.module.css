@@ -1,0 +1,113 @@
+/* FormField.module.css */
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.labelRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.label {
+    font-size: var(--font-size-label-uppercase);
+    line-height: var(--line-height-label-uppercase);
+    letter-spacing: var(--letter-spacing-label-uppercase);
+    font-weight: var(--font-weight-label-uppercase);
+    color: var(--color-secondary);
+}
+
+.required {
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--color-outline);
+    letter-spacing: 0;
+}
+
+/* Input wrapper (for icon positioning) */
+.inputWrapper {
+    position: relative;
+}
+
+.inputIcon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-outline);
+    pointer-events: none;
+    font-size: 20px;
+}
+
+/* Base input / select / textarea */
+.input,
+.select,
+.textarea {
+    width: 100%;
+    background-color: var(--color-surface-container-lowest);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-lg);
+    font-size: var(--font-size-body-base);
+    line-height: var(--line-height-body-base);
+    color: var(--color-on-surface);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    font-family: var(--font-family);
+}
+
+.input,
+.select {
+    padding: 12px var(--space-md);
+}
+
+.inputWithIcon {
+    padding-left: 40px;
+}
+
+.textarea {
+    padding: var(--space-md);
+    resize: vertical;
+}
+
+.select {
+    appearance: none;
+    cursor: pointer;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+    color: var(--color-outline);
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Error state */
+.inputError {
+    border-color: var(--color-error);
+}
+
+.inputError:focus {
+    border-color: var(--color-error);
+    box-shadow: 0 0 0 2px rgba(186, 26, 26, 0.12);
+}
+
+.errorMessage {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    color: var(--color-error);
+}
+
+.errorMessage .errorIcon {
+    font-size: 16px;
+}

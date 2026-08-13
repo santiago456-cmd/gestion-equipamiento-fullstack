@@ -1,0 +1,30 @@
+/* SolicitudesListPage.module.css */
+
+.pageHeader {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+    .pageHeader {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+}
+
+.pageTitle {
+    font-size: var(--font-size-display-xl);
+    line-height: var(--line-height-display-xl);
+    letter-spacing: var(--letter-spacing-display-xl);
+    font-weight: var(--font-weight-display-xl);
+    color: var(--color-on-surface);
+}
+
+.pageSubtitle {
+    font-size: var(--font-size-body-base);
+    color: var(--color-on-surface-variant);
+    margin-top: var(--space-xs);
+}

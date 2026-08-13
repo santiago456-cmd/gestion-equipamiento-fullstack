@@ -1,0 +1,88 @@
+/* Pagination.module.css */
+
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm) var(--space-md);
+    background-color: var(--color-surface-container-low);
+    border-top: 1px solid var(--color-outline-variant);
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.info {
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    color: var(--color-on-surface-variant);
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.pageButton {
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-DEFAULT);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--font-size-body-sm);
+    font-weight: 600;
+    color: var(--color-on-surface);
+    transition: background-color 0.15s ease;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+
+.pageButton:hover:not(:disabled) {
+    background-color: var(--color-surface-variant);
+}
+
+.pageButton:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.pageButtonActive {
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+}
+
+.pageButtonActive:hover {
+    background-color: var(--color-primary) !important;
+}
+
+.ellipsis {
+    color: var(--color-on-surface-variant);
+    padding: 0 var(--space-xs);
+    font-size: var(--font-size-body-sm);
+    line-height: 32px;
+}
+
+.arrowButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xs);
+    border-radius: var(--radius-DEFAULT);
+    color: var(--color-on-surface-variant);
+    cursor: pointer;
+    border: none;
+    background: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.arrowButton:hover:not(:disabled) {
+    background-color: var(--color-surface-variant);
+    color: var(--color-on-surface);
+}
+
+.arrowButton:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}

@@ -1,0 +1,57 @@
+/* StatusBadge.module.css */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-label-uppercase);
+    line-height: var(--line-height-label-uppercase);
+    letter-spacing: var(--letter-spacing-label-uppercase);
+    font-weight: var(--font-weight-label-uppercase);
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.badge .icon {
+    font-size: 14px;
+}
+
+/* Variants */
+.pendiente {
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning-text);
+    border-color: #fde68a;
+}
+
+.aprobado {
+    background-color: var(--color-success-bg);
+    color: var(--color-success-text);
+    border-color: #a7f3d0;
+}
+
+.rechazado {
+    background-color: var(--color-error-container);
+    color: var(--color-on-error-container);
+    border-color: #fca5a5;
+}
+
+.devuelto {
+    background-color: var(--color-info-bg);
+    color: var(--color-info-text);
+    border-color: #bae6fd;
+}
+
+.vencido {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger-text);
+    border-color: #fda4af;
+}
+
+/* Table variant — no pill, more compact */
+.tableVariant {
+    border-radius: var(--radius-DEFAULT);
+    padding: 3px 8px;
+    font-size: 11px;
+}

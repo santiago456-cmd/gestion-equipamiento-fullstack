@@ -1,0 +1,128 @@
+/* EditarSolicitudPage.module.css */
+
+.backLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--font-size-body-sm);
+    color: var(--color-secondary);
+    text-decoration: none;
+    margin-bottom: var(--space-xs);
+    transition: color 0.15s ease;
+}
+
+.backLink:hover {
+    color: var(--color-primary);
+}
+
+.pageHeader {
+    margin-bottom: var(--space-xl);
+}
+
+.titleRow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+    flex-wrap: wrap;
+    margin-top: var(--space-xs);
+}
+
+.pageTitle {
+    font-size: var(--font-size-display-xl);
+    line-height: var(--line-height-display-xl);
+    letter-spacing: var(--letter-spacing-display-xl);
+    font-weight: var(--font-weight-display-xl);
+    color: var(--color-on-surface);
+}
+
+/* Form card */
+.formCard {
+    background-color: var(--color-surface-container-lowest);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card);
+    overflow: hidden;
+}
+
+/* Context section (read-only) */
+.contextSection {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    background-color: var(--color-surface-container-low);
+    border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.contextIcon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface-container-highest);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--color-secondary);
+}
+
+.contextTitle {
+    font-size: var(--font-size-title-md);
+    font-weight: var(--font-weight-title-md);
+    color: var(--color-on-surface);
+    margin-bottom: var(--space-xs);
+}
+
+.contextMeta {
+    font-size: var(--font-size-body-sm);
+    color: var(--color-secondary);
+    margin-bottom: var(--space-sm);
+}
+
+.contextSolicitante {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: var(--font-size-body-sm);
+    color: var(--color-on-surface-variant);
+}
+
+.contextSolicitante strong {
+    color: var(--color-on-surface);
+}
+
+/* Editable form */
+.form {
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+}
+
+.datesGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+}
+
+@media (max-width: 640px) {
+    .datesGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Form actions */
+.formActions {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--space-md);
+    padding-top: var(--space-lg);
+    border-top: 1px solid var(--color-outline-variant);
+}
+
+@media (min-width: 640px) {
+    .formActions {
+        flex-direction: row;
+        justify-content: flex-end;
+    }
+}

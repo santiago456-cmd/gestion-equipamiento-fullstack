@@ -1,0 +1,119 @@
+/* RegisterPage.module.css */
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-md);
+    background-color: var(--color-surface);
+    position: relative;
+    overflow: hidden;
+}
+
+.page::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.04;
+    background-image: radial-gradient(circle at 2px 2px, var(--color-primary) 1px, transparent 0);
+    background-size: 32px 32px;
+    pointer-events: none;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px;
+    position: relative;
+    z-index: 1;
+}
+
+.brand {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+}
+
+.brandIconWrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: var(--radius-xl);
+    background-color: var(--color-primary);
+    color: var(--color-on-primary);
+    margin-bottom: var(--space-md);
+}
+
+.brandTitle {
+    font-size: var(--font-size-headline-lg);
+    font-weight: var(--font-weight-headline-lg);
+    color: var(--color-primary);
+}
+
+.brandSub {
+    font-size: var(--font-size-body-sm);
+    color: var(--color-secondary);
+    margin-top: var(--space-xs);
+}
+
+.card {
+    background-color: var(--color-surface-container-lowest);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    padding: var(--space-xl);
+}
+
+.cardTitle {
+    font-size: var(--font-size-title-md);
+    font-weight: var(--font-weight-title-md);
+    color: var(--color-on-surface);
+    margin-bottom: var(--space-lg);
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+}
+
+@media (max-width: 480px) {
+    .grid2 {
+        grid-template-columns: 1fr;
+    }
+}
+
+.divider {
+    height: 1px;
+    background-color: var(--color-outline-variant);
+    margin: var(--space-xs) 0;
+}
+
+.submitWrapper {
+    padding-top: var(--space-sm);
+}
+
+.footer {
+    text-align: center;
+    margin-top: var(--space-lg);
+    font-size: var(--font-size-body-base);
+    color: var(--color-secondary);
+}
+
+.footerLink {
+    color: var(--color-primary);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.footerLink:hover {
+    text-decoration: underline;
+}

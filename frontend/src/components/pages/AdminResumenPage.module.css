@@ -1,0 +1,213 @@
+/* AdminResumenPage.module.css */
+
+.pageHeader {
+    margin-bottom: var(--space-lg);
+}
+
+.pageTitle {
+    font-size: var(--font-size-display-xl);
+    line-height: var(--line-height-display-xl);
+    letter-spacing: var(--letter-spacing-display-xl);
+    font-weight: var(--font-weight-display-xl);
+    color: var(--color-on-surface);
+}
+
+.pageSubtitle {
+    font-size: var(--font-size-body-base);
+    color: var(--color-on-surface-variant);
+    margin-top: var(--space-xs);
+}
+
+/* KPI grid */
+.kpiGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+@media (min-width: 640px) {
+    .kpiGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .kpiGrid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.kpiCard {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    background-color: var(--color-surface-container-lowest);
+    border: 1px solid var(--color-outline-variant);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+    box-shadow: var(--shadow-card);
+}
+
+.kpiIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.kpiIcon_warning {
+    background-color: var(--color-warning-bg);
+    color: var(--color-warning-text);
+}
+
+.kpiIcon_success {
+    background-color: var(--color-success-bg);
+    color: var(--color-success-text);
+}
+
+.kpiIcon_danger {
+    background-color: var(--color-danger-bg);
+    color: var(--color-danger-text);
+}
+
+.kpiIcon_info {
+    background-color: var(--color-info-bg);
+    color: var(--color-info-text);
+}
+
+.kpiValue {
+    font-size: var(--font-size-headline-lg);
+    line-height: var(--line-height-headline-lg);
+    font-weight: 700;
+    color: var(--color-on-surface);
+}
+
+.kpiLabel {
+    font-size: var(--font-size-body-sm);
+    color: var(--color-secondary);
+}
+
+/* Bento grid */
+.bentoGrid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+}
+
+@media (min-width: 1024px) {
+    .bentoGrid {
+        grid-template-columns: 1fr 2fr;
+    }
+}
+
+.bentoSpan1,
+.bentoSpan2 {
+    width: 100%;
+}
+
+/* Category list */
+.categoryList {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.categoryRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid var(--color-outline-variant);
+}
+
+.categoryRow:last-child {
+    border-bottom: none;
+}
+
+.categoryName {
+    font-size: var(--font-size-body-sm);
+    color: var(--color-on-surface);
+}
+
+.categoryCount {
+    font-size: var(--font-size-body-sm);
+    font-weight: 700;
+    color: var(--color-primary);
+    background-color: var(--color-surface-container-high);
+    border-radius: var(--radius-full);
+    padding: 2px 10px;
+}
+
+/* Recent table */
+.tableWrapper {
+    overflow-x: auto;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.th {
+    padding: var(--space-sm) var(--space-md);
+    font-size: var(--font-size-label-uppercase);
+    letter-spacing: var(--letter-spacing-label-uppercase);
+    font-weight: var(--font-weight-label-uppercase);
+    color: var(--color-on-surface-variant);
+    background-color: var(--color-surface-container-low);
+    border-bottom: 1px solid var(--color-outline-variant);
+    white-space: nowrap;
+}
+
+.thCenter {
+    text-align: center;
+}
+
+.tr {
+    border-bottom: 1px solid var(--color-outline-variant);
+    transition: background-color 0.12s ease;
+}
+
+.tr:last-child {
+    border-bottom: none;
+}
+
+.tr:hover {
+    background-color: var(--color-surface-container-low);
+}
+
+.td {
+    padding: var(--space-md);
+    font-size: var(--font-size-body-sm);
+    color: var(--color-on-surface);
+    vertical-align: middle;
+}
+
+.tdMuted {
+    color: var(--color-on-surface-variant);
+}
+
+.tdCenter {
+    text-align: center;
+}
+
+.idLink {
+    color: var(--color-primary);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.idLink:hover {
+    text-decoration: underline;
+}
+
+.userCell {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
