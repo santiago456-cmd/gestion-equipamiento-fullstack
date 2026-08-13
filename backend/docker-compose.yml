@@ -26,6 +26,34 @@ services:
       timeout: 5s
       retries: 5
       start_period: 10s
+
+  db-test:
+    image: postgres:16-alpine
+    container_name: container_equipo_db_test
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${TEST_DB_USER:-test_user}
+      POSTGRES_PASSWORD: ${TEST_DB_PASSWORD:-test_password}
+      POSTGRES_DB: ${TEST_DB_NAME:-test_db}
+    ports:
+      - "${TEST_DB_PORT:-5434}:5432"
+    # sin volumen a proposito: cada `docker compose down` la deja completamente
+    # limpia, y de todas formas los tests hacen sync({ force: true }) siempre.
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+        reservations:
+          memory: 256M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${TEST_DB_USER:-test_user} -d ${TEST_DB_NAME:-test_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+
 volumes:
   postgres_data:
     driver: local
