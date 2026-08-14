@@ -1,5 +1,5 @@
 import { UsuarioRepository } from "../repositories/UsuarioRepository.js";
-import { HttpError } from "../errors/HttpError.js";
+import { NotFoundError } from "../errors/NotFoundError.js";
 import type { Attributes } from "sequelize";
 import type { Usuario } from "../models/Usuario.js";
 
@@ -13,7 +13,7 @@ class UsuarioService {
     const usuario = await usuarioRepository.findById(id);
     
     if (!usuario) {
-      throw new HttpError('El usuario solicitado no existe en el sistema.', 404);
+      throw new NotFoundError('El usuario solicitado no existe en el sistema.');
     }
 
     
@@ -36,7 +36,7 @@ class UsuarioService {
     const usuario = await usuarioRepository.findById(id);
     
     if (!usuario) {
-      throw new HttpError('No se encontró el usuario para modificar su estado.', 404);
+      throw new NotFoundError('No se encontró el usuario para modificar su estado.');
     }
     
     await usuarioRepository.updateInstance(usuario, { activo: nuevoEstado });

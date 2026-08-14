@@ -1,7 +1,10 @@
 import { SolicitudRepository } from "../repositories/SolicitudRepository.js";
 import { EquipoRepository } from "../repositories/EquipoRepository.js";
 import { HistorialSolicitudRepository } from "../repositories/HistorialSolicitudRepository.js";
-import { HttpError } from "../errors/HttpError.js";
+import { AppError } from "../errors/AppError.js";
+import { NotFoundError } from "../errors/NotFoundError.js";
+import { ValidationError } from "../errors/ValidationError.js";
+import { ForbiddenError } from "../errors/ForbiddenError.js";
 import type { Solicitud } from "../models/Solicitud.js";
 import type { RolUsuario } from "../models/Usuario.js";
 import type { FindAndCountAllPaginatedParams } from "../repositories/SolicitudRepository.js";
@@ -35,24 +38,21 @@ class SolicitudService {
     const { equipoId, fechaRetiro, fechaDevolucion, motivo } = datos;
 
     if (new Date(fechaRetiro) >= new Date(fechaDevolucion)) {
-      throw new HttpError(
-        "Fechas inválidas. La fecha de retiro debe ser estrictamente anterior a la fecha de devolución.",
-        400,
+      throw new ValidationError(
+        "Fechas inválidas. La fecha de retiro debe ser estrictamente anterior a la fecha de devolución."
       );
     }
 
     const equipo = await this.equipoRepo.findById(equipoId);
     if (!equipo) {
-      throw new HttpError(
-        "Equipo inexistente. El ID provisto no corresponde a ninguno.",
-        400,
+      throw new ValidationError(
+        "Equipo inexistente. El ID provisto no corresponde a ninguno."
       );
     }
 
     if (equipo.estado !== "disponible") {
-      throw new HttpError(
-        `Equipo no disponible. El equipo se encuentra actualmente en estado: ${equipo.estado}.`,
-        400,
+      throw new ValidationError(
+        `Equipo no disponible. El equipo se encuentra actualmente en estado: ${equipo.estado}.`
       );
     }
 
@@ -62,9 +62,8 @@ class SolicitudService {
       fechaDevolucion,
     );
     if (conflicto) {
-      throw new HttpError(
-        "Superposición de fechas. Ya existe una solicitud aprobada para ese equipo en el período seleccionado.",
-        400,
+      throw new ValidationError(
+        "Superposición de fechas. Ya existe una solicitud aprobada para ese equipo en el período seleccionado."
       );
     }
 
@@ -97,12 +96,12 @@ class SolicitudService {
   async editar(id: number, datosNuevos: EditarSolicitudInput, usuarioId:number): Promise<Solicitud> {
     const solicitud = await this.solicitudRepo.findById(id);
     if (!solicitud) {
-      throw new HttpError("Solicitud no encontrada.", 404);
+      throw new NotFoundError("Solicitud no encontrada.");
     }
 
     if (solicitud.estado !== "pendiente") {
-      throw new HttpError(
-        "Falta de permisos. No se puede editar una solicitud que ya no esté pendiente.", 400
+      throw new ValidationError(
+        "Falta de permisos. No se puede editar una solicitud que ya no esté pendiente."
       );
     }
 
@@ -111,8 +110,8 @@ class SolicitudService {
     const nuevaFechaDevolucion = fechaDevolucion ?? solicitud.fechaDevolucion;
 
     if (new Date(nuevaFechaRetiro) >= new Date(nuevaFechaDevolucion)) {
-      throw new HttpError(
-        "Fechas inválidas. La fecha de retiro debe ser anterior a la de devolución.", 400
+      throw new ValidationError(
+        "Fechas inválidas. La fecha de retiro debe ser anterior a la de devolución."
       );
     }
 
@@ -123,8 +122,8 @@ class SolicitudService {
       solicitud.id,
     );
     if (conflicto) {
-      throw new HttpError(
-        "Superposición de fechas. El nuevo rango colisiona con una reserva aprobada.", 400
+      throw new ValidationError(
+        "Superposición de fechas. El nuevo rango colisiona con una reserva aprobada."
       );
     }
 
@@ -161,12 +160,12 @@ class SolicitudService {
   async aprobar(id: number, operadorId: number, operadorRol: RolUsuario): Promise<Solicitud> {
     const solicitud = await this.solicitudRepo.findDetailById(id);
     if (!solicitud) {
-      throw new HttpError("Solicitud no encontrada.", 404);
+      throw new NotFoundError("Solicitud no encontrada.");
     }
 
     if (solicitud.estado !== "pendiente") {
-      throw new HttpError(
-        `Transición inválida. No se puede aprobar en estado: ${solicitud.estado}`, 400
+      throw new ValidationError(
+        `Transición inválida. No se puede aprobar en estado: ${solicitud.estado}`
       );
     }
 
@@ -174,8 +173,8 @@ class SolicitudService {
       solicitud.equipo!.requiereAutorizacion &&
       !["admin", "encargado"].includes(operadorRol)
     ) {
-      throw new HttpError(
-        "Falta de permisos. Este equipo requiere la autorización de un administrador o encargado.", 403
+      throw new ForbiddenError(
+        "Falta de permisos. Este equipo requiere la autorización de un administrador o encargado."
       );
     }
 
@@ -185,8 +184,8 @@ class SolicitudService {
       solicitud.fechaDevolucion,
     );
     if (conflicto) {
-      throw new HttpError(
-        "Equipo no disponible. Se aprobó otra reserva para las mismas fechas primero.", 400
+      throw new ValidationError(
+        "Equipo no disponible. Se aprobó otra reserva para las mismas fechas primero."
       );
     }
 
@@ -198,7 +197,7 @@ class SolicitudService {
 
     const equipo = await this.equipoRepo.findById(solicitud.equipoId);
     if (!equipo){
-      throw new HttpError("Inconsistencia de datos: el equipo asociado a la solicitud no existe.", 500);
+      throw new AppError("Inconsistencia de datos: el equipo asociado a la solicitud no existe.", 500, false);
     }
 
     await this.equipoRepo.updateInstance(equipo, { estado: "prestado" });
@@ -226,11 +225,11 @@ class SolicitudService {
   async cancelar(id: number, operadorId: number): Promise<Solicitud> {
     const solicitud = await this.solicitudRepo.findById(id);
     if (!solicitud) {
-      throw new HttpError("Solicitud no encontrada.", 404);
+      throw new NotFoundError("Solicitud no encontrada.");
     }
 
     if (["rechazada", "cancelada", "devuelta"].includes(solicitud.estado)) {
-      throw new HttpError("Flujo inválido. No se puede cancelar.", 400);
+      throw new ValidationError("Flujo inválido. No se puede cancelar.");
     }
 
     const estadoAnterior = solicitud.estado;
@@ -238,7 +237,7 @@ class SolicitudService {
     if (estadoAnterior === "aprobada" || estadoAnterior === "pendiente") {
       const equipo = await this.equipoRepo.findById(solicitud.equipoId);
       if (!equipo) {
-        throw new HttpError("Inconsistencia de datos: el equipo asociado a la solicitud no existe.", 500)
+        throw new AppError("Inconsistencia de datos: el equipo asociado a la solicitud no existe.", 500, false)
       }
       await this.equipoRepo.updateInstance(equipo, { estado: "disponible" });
     }
@@ -256,17 +255,17 @@ class SolicitudService {
   async devolver(id: number, operadorId: number): Promise<Solicitud> {
     const solicitud = await this.solicitudRepo.findById(id);
     if (!solicitud) {
-      throw new HttpError("Solicitud no encontrada.", 404);
+      throw new NotFoundError("Solicitud no encontrada.");
     }
     if (solicitud.estado !== "aprobada") {
-      throw new HttpError("No permitir devolver solicitudes no aprobadas.", 400);
+      throw new ValidationError("No permitir devolver solicitudes no aprobadas.");
     }
 
     const estadoAnterior = solicitud.estado;
     await this.solicitudRepo.updateInstance(solicitud, { estado: "devuelta" });
     const equipo = await this.equipoRepo.findById(solicitud.equipoId);
     if (!equipo) {
-      throw new HttpError("Inconsistencia de datos: el equipo asociado a la solicitud no existe.", 500)
+      throw new AppError("Inconsistencia de datos: el equipo asociado a la solicitud no existe.", 500, false)
     }
 
     await this.equipoRepo.updateInstance(equipo, { estado: "disponible" });
@@ -284,11 +283,11 @@ class SolicitudService {
   async rechazar(id: number, operadorId: number): Promise<Solicitud> {
     const solicitud = await this.solicitudRepo.findById(id);
     if (!solicitud) {
-      throw new HttpError("Solicitud no encontrada.", 404);
+      throw new NotFoundError("Solicitud no encontrada.");
     }
     if (solicitud.estado !== "pendiente") {
-      throw new HttpError(
-        "Solo se pueden rechazar solicitudes pendientes.",400
+      throw new ValidationError(
+        "Solo se pueden rechazar solicitudes pendientes."
       );
     }
     const estadoAnterior = solicitud.estado;
@@ -333,7 +332,7 @@ class SolicitudService {
   async obtenerHistorial(solicitudId: number): Promise<HistorialSolicitud[]> {
     const solicitud = await this.solicitudRepo.findById(solicitudId);
     if (!solicitud) {
-      throw new HttpError("Solicitud no encontrada.", 404);
+      throw new NotFoundError("Solicitud no encontrada.");
     }
 
     return this.historialRepo.findAll({

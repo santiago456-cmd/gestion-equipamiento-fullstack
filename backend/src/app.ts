@@ -7,12 +7,16 @@ import { equipoRoutes } from "./routes/equipoRoutes.js";
 import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import { setupAssociations } from "./models/associations.js";
 import { fileURLToPath } from "node:url";
+import { requestContextMiddleware } from "./middlewares/requestContext.js";
+import { logger } from "./config/logger.js";
+
 
 export function createApp(): Express {
     const app = express();
 
     app.use(express.json());
     app.use(corsMiddleware);
+    app.use(requestContextMiddleware)
 
     app.get("/", (req: Request, res: Response) => {
         res.json({
@@ -23,6 +27,7 @@ export function createApp(): Express {
     });
 
     app.get("/api/health", (req: Request, res: Response) => {
+        logger.info("health check solicitado")
         res.json({
             ok: true,
             status: "ok",

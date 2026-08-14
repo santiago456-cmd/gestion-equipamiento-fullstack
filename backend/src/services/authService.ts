@@ -1,8 +1,9 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { UsuarioRepository } from "../repositories/UsuarioRepository.js";
-import { HttpError } from '../errors/HttpError.js';
 import type { RolUsuario } from '../models/Usuario.js';
+import { ValidationError } from '../errors/ValidationError.js';
+import { UnauthorizedError } from '../errors/UnauthorizedError.js';
 
 // 1. CREAMOS LA INSTANCIA (Soluciona el error "usuarioRepository is not defined")
 const usuarioRepository = new UsuarioRepository();
@@ -28,7 +29,7 @@ class AuthService {
     // 1. Validar unicidad del correo electrónico
     const existeUsuario = await usuarioRepository.findByEmail(datosRegistro.email);
     if (existeUsuario) {
-      throw new HttpError('El correo electrónico ya se encuentra registrado.', 400);
+      throw new ValidationError('El correo electrónico ya se encuentra registrado.');
     }
 
     // 2. Aplicar función Hash a la contraseña plana
@@ -53,13 +54,13 @@ class AuthService {
     // 1. Buscar usuario activo por email
     const usuario = await usuarioRepository.findByEmail(email);
     if (!usuario) {
-      throw new HttpError('Credenciales inválidas.', 401); // Mensaje genérico por seguridad
+      throw new UnauthorizedError('Credenciales inválidas.'); // Mensaje genérico por seguridad
     }
 
     // 2. Validar firma Hash de la contraseña ingresada
     const esClaveValida = await bcrypt.compare(password, usuario.passwordHash);
     if (!esClaveValida) {
-      throw new HttpError('Credenciales inválidas.', 401);
+      throw new UnauthorizedError('Credenciales inválidas.');
     }
 
     // 3. Generar Payload del JWT (Guardamos datos no sensibles para el contexto)
