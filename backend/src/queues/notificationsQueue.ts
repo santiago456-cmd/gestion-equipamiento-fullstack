@@ -35,6 +35,7 @@ export const notificationQueue = new Queue<NotificationJobData>('notifications',
     connection: {
         host: env.redis.host,
         port: env.redis.port,
+        retryStrategy: (times) => (times > 3 ? null : Math.min(times * 200, 1000)),
     }
 })
 
