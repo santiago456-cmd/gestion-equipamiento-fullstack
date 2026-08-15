@@ -2,11 +2,13 @@ import { describe, it, expect, beforeAll, afterAll } from 'vitest';
 import request from 'supertest';
 import type { Express } from 'express';
 import type { Server } from 'http'
+import jwt from 'jsonwebtoken'
 import { createApp } from '../src/app.js';
 import { sequelize } from '../src/config/dataBase.js'; 
 import { Equipo } from '../src/models/Equipo.js';
 import { Solicitud } from '../src/models/Solicitud.js';
 
+const JWT_EMAIL_SECRET = process.env.JWT_EMAIL_SECRET || 'secreto_email_para_pruebas_456'
 
 describe('Pruebas del Dominio de Solicitudes y Equipos', () => {
   let app: Express;
@@ -18,21 +20,32 @@ describe('Pruebas del Dominio de Solicitudes y Equipos', () => {
     server = app.listen(0);
 
     // 1. Registramos un usuario
-    await request(app).post('/api/auth/register').send({
+    const registro = await request(app).post('/api/auth/register').send({
       email: 'alumno_test@test.com',
       password: 'Password123',
       nombre: 'Alumno Test',
-      rol: 'usuario'
+      rol: 'usuario',
     });
-    
-    // 2. Iniciamos sesión
+
+    const usuarioId = registro.body.data.id;
+
+    // 2. Simulamos el click en el mail de confirmación
+    const confirmationToken = jwt.sign(
+      { id: usuarioId, type: 'email-confirmation' },
+      JWT_EMAIL_SECRET,
+      { expiresIn: '24h' },
+    );
+    await request(app).get(`/api/auth/confirmar/${confirmationToken}`);
+
+    // 3. Iniciamos sesión (ahora sí, con la cuenta ya confirmada)
     const login = await request(app).post('/api/auth/login').send({
       email: 'alumno_test@test.com',
-      password: 'Password123'
+      password: 'Password123',
     });
-    
+
     tokenAlumno = login.body.token;
   });
+
 
   afterAll(async () => {
     await sequelize.close();

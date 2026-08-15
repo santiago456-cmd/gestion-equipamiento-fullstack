@@ -15,9 +15,9 @@ export const seedUsuarios = async (): Promise<void> => {
   const passwordAdmin = await bcrypt.hash('admin123', salt);
 
   const usuarios = [
-    { id: 1, nombre: 'Carla Ruiz', email: 'carla@dds.com', passwordHash: passwordComun, rol: 'usuario', activo: true },
-    { id: 2, nombre: 'Lucas Gómez', email: 'lucas@dds.com', passwordHash: passwordComun, rol: 'usuario', activo: true },
-    { id: 3, nombre: 'Admin General', email: 'admin@dds.com', passwordHash: passwordAdmin, rol: 'admin', activo: true }
+    { id: 1, nombre: 'Carla Ruiz', email: 'carla@dds.com', passwordHash: passwordComun, rol: 'usuario', activo: true, emailVerificado: true },
+    { id: 2, nombre: 'Lucas Gómez', email: 'lucas@dds.com', passwordHash: passwordComun, rol: 'usuario', activo: true, emailVerificado: true },
+    { id: 3, nombre: 'Admin General', email: 'admin@dds.com', passwordHash: passwordAdmin, rol: 'admin', activo: true, emailVerificado: true }
   ] as const;
 
   await Usuario.bulkCreate(usuarios, { validate: true });

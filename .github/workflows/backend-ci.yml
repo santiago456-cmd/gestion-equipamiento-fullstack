@@ -79,6 +79,7 @@ jobs:
       NODE_ENV: test
       PORT: 3000
       JWT_SECRET: ci_test_secret_no_usar_en_produccion
+      JWT_EMAIL_SECRET: ci_test_email_secret_no_usar_en_produccion
       CORS_ORIGIN: http://localhost:5173
       DB_HOST: localhost
       DB_PORT: 5432

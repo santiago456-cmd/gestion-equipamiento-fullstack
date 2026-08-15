@@ -27,7 +27,6 @@ export function createApp(): Express {
     });
 
     app.get("/api/health", (req: Request, res: Response) => {
-        logger.info("health check solicitado")
         res.json({
             ok: true,
             status: "ok",

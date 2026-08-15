@@ -14,7 +14,8 @@ export class Usuario extends Model<
   declare email: string;
   declare passwordHash: string;
   declare rol: CreationOptional<RolUsuario>;
-  declare activo: CreationOptional<boolean>
+  declare activo: CreationOptional<boolean>;
+  declare emailVerificado: CreationOptional<boolean>;
 }
 
 Usuario.init(
@@ -62,6 +63,11 @@ Usuario.init(
       allowNull: false,
       defaultValue: true,
     },
+      emailVerificado: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+      }
   },
   {
     sequelize,
