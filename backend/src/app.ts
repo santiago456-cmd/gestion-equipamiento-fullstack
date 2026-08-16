@@ -9,6 +9,7 @@ import { setupAssociations } from "./models/associations.js";
 import { fileURLToPath } from "node:url";
 import { requestContextMiddleware } from "./middlewares/requestContext.js";
 import { logger } from "./config/logger.js";
+import { usuarioRoutes } from "./routes/usuarioRoutes.js";
 
 
 export function createApp(): Express {
@@ -37,6 +38,7 @@ export function createApp(): Express {
     app.use("/api/auth", authRoutes);
     app.use("/api/solicitudes", solicitudRoutes);
     app.use("/api/equipos", equipoRoutes);
+    app.use("/api/usuarios", usuarioRoutes)
 
     app.use((req: Request, res: Response) => {
         res.status(404).json({

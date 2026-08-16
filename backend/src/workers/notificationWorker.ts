@@ -2,7 +2,7 @@ import { Worker, Job } from "bullmq";
 import { env } from "../config/env.js";
 import { logger } from "../config/logger.js";
 import { requestContext } from "../middlewares/requestContext.js";
-import { sendWelcomeEmail, sendConfirmationEmail, sendPasswordResetEmail } from "../services/EmailService.js";
+import { sendWelcomeEmail, sendConfirmationEmail, sendPasswordResetEmail, sendEmailChangeConfirmation } from "../services/EmailService.js";
 import type { NotificationJobData } from "../queues/notificationsQueue.js";
 
 const worker = new Worker<NotificationJobData>(
@@ -22,6 +22,9 @@ const worker = new Worker<NotificationJobData>(
                     break
                 case 'password-reset-email':
                     await sendPasswordResetEmail(job.data.to, job.data.nombre, job.data.token)
+                    break
+                case 'email-change-confirmation':
+                    await sendEmailChangeConfirmation(job.data.to, job.data.nombre, job.data.token)
                     break
                 default:
                     logger.warn({jobName: job.name}, 'Tipo de notificacion desconocido')

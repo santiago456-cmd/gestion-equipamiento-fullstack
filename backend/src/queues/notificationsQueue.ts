@@ -2,6 +2,14 @@ import {Queue} from 'bullmq'
 import { env } from '../config/env.js'
 import { requestContext } from '../middlewares/requestContext.js'
 
+export interface EmailChangeConfirmationJobData {
+    type: 'email-change-confirmation';
+    to: string;
+    nombre: string;
+    token: string;
+    requestId?: string;
+}
+
 export interface WelcomeEmailJobData {
     type: 'welcome-email';
     to: string;
@@ -29,6 +37,7 @@ export type NotificationJobData =
     | WelcomeEmailJobData
     | ConfirmationEmailJobData
     | PasswordResetEmailJobData
+    | EmailChangeConfirmationJobData
 
 
 export const notificationQueue = new Queue<NotificationJobData>('notifications', {
@@ -67,4 +76,10 @@ export async function enqueuePasswordResetEmail(
     data: Omit<PasswordResetEmailJobData, 'type' | 'requestId'>
 ): Promise<void> {
     await enqueue({type: 'password-reset-email', ...data})
+}
+
+export async function enqueueEmailChangeConfirmation(
+    data: Omit<EmailChangeConfirmationJobData, 'type' | 'requestId'>
+): Promise<void>{
+    await enqueue({ type: 'email-change-confirmation', ...data})
 }
