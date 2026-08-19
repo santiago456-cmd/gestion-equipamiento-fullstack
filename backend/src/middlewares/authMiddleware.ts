@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
 import {Request, Response, NextFunction} from 'express'
 import type { AuthUser } from '../types/express/index.js';
+import { env } from '../config/env.js';
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = env.jwtSecret;
 
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET no esta definido en las variables de entorno")

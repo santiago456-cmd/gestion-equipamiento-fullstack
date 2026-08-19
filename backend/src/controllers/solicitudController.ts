@@ -1,50 +1,46 @@
 import { Request, Response, NextFunction } from "express";
 import { solicitudService } from "../services/solicitudService.js";
+import type {
+  IdParam, ListarSolicitudesQuery, CrearSolicitudInput, EditarSolicitudInput,
+} from "../schemas/solicitudSchemas.js";
 
 class SolicitudController {
-
-  // GET /api/solicitudes
-  async listarPaginado(req: Request, res:Response, next: NextFunction): Promise<void> {
+  async listarPaginado(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const resultado = await solicitudService.obtenerTodas(req.query);
-
-      const page = parseInt(req.query.page as string) || 1;
-      const limit = parseInt(req.query.limit as string) || 5
+      const query = req.validated!.query as ListarSolicitudesQuery;
+      const resultado = await solicitudService.obtenerTodas(query);
 
       res.status(200).json({
         ok: true,
         data: resultado.rows,
         totalItems: resultado.count,
-        page,
-        limit,
+        page: query.page ?? 1,
+        limit: query.limit ?? 5,
       });
     } catch (error) {
       next(error);
     }
   }
 
-  // GET /api/solicitudes/:id
-  async obtenerDetalle(req: Request<{id: string}>, res: Response, next: NextFunction): Promise<void> {
+  async obtenerDetalle(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { id } = req.params;
-      const solicitud = await solicitudService.obtenerPorId(Number(id));
+      const { id } = req.validated!.params as IdParam;
+      const solicitud = await solicitudService.obtenerPorId(id);
       if (!solicitud) {
         res.status(404).json({ ok: false, message: "Solicitud no encontrada" });
-        return
+        return;
       }
-
       res.status(200).json({ ok: true, data: solicitud });
     } catch (error) {
       next(error);
     }
   }
 
-  // POST /api/solicitudes
   async crearSolicitud(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const usuarioId = req.user!.id;
-
-      const nuevaSolicitud = await solicitudService.crear(req.body, usuarioId);
+      const body = req.validated!.body as CrearSolicitudInput;
+      const nuevaSolicitud = await solicitudService.crear(body, usuarioId);
 
       res.status(201).json({
         ok: true,
@@ -56,17 +52,13 @@ class SolicitudController {
     }
   }
 
-  // PUT /api/solicitudes/:id
-  async editarSolicitud(req: Request<{id: string}>, res: Response, next: NextFunction): Promise<void> {
+  async editarSolicitud(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { id } = req.params;
+      const { id } = req.validated!.params as IdParam;
+      const body = req.validated!.body as EditarSolicitudInput;
       const usuarioId = req.user!.id;
 
-      const solicitudEditada = await solicitudService.editar(
-        (Number(id)),
-        req.body,
-        usuarioId,
-      );
+      const solicitudEditada = await solicitudService.editar(id, body, usuarioId);
 
       res.status(200).json({
         ok: true,
@@ -78,23 +70,17 @@ class SolicitudController {
     }
   }
 
-  // PATCH /api/solicitudes/:id/aprobar
-  async aprobarSolicitud(req: Request<{id: string}>, res: Response, next: NextFunction): Promise<void> {
+  async aprobarSolicitud(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { id } = req.params;
+      const { id } = req.validated!.params as IdParam;
       const operadorId = req.user!.id;
       const operadorRol = req.user!.rol;
 
-      const solicitudAprobada = await solicitudService.aprobar(
-        (Number(id)),
-        operadorId,
-        operadorRol,
-      );
+      const solicitudAprobada = await solicitudService.aprobar(id, operadorId, operadorRol);
 
       res.status(200).json({
         ok: true,
-        message:
-          "La solicitud fue aprobada. El equipo asignado pasó a estado PRESTADO.",
+        message: "La solicitud fue aprobada. El equipo asignado pasó a estado PRESTADO.",
         data: solicitudAprobada,
       });
     } catch (error) {
@@ -102,16 +88,11 @@ class SolicitudController {
     }
   }
 
-  // PATCH /api/solicitudes/:id/rechazar
-  async rechazarSolicitud(req: Request<{id: string}>, res: Response, next: NextFunction): Promise<void> {
+  async rechazarSolicitud(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { id } = req.params;
+      const { id } = req.validated!.params as IdParam;
       const operadorId = req.user!.id;
-
-      const solicitudRechazada = await solicitudService.rechazar(
-        (Number(id)),
-        operadorId,
-      );
+      const solicitudRechazada = await solicitudService.rechazar(id, operadorId);
 
       res.status(200).json({
         ok: true,
@@ -123,17 +104,11 @@ class SolicitudController {
     }
   }
 
-  // PATCH /api/solicitudes/:id/cancelar
-
-  async cancelarSolicitud(req: Request<{id: string}>, res: Response, next: NextFunction): Promise<void> {
+  async cancelarSolicitud(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { id } = req.params;
+      const { id } = req.validated!.params as IdParam;
       const operadorId = req.user!.id;
-
-      const solicitudCancelada = await solicitudService.cancelar(
-        (Number(id)),
-        operadorId,
-      );
+      const solicitudCancelada = await solicitudService.cancelar(id, operadorId);
 
       res.status(200).json({
         ok: true,
@@ -145,25 +120,20 @@ class SolicitudController {
     }
   }
 
-  // PATCH /api/solicitudes/:id/devolver
-  async procesarDevolucion(req: Request<{id: string}>, res: Response, next: NextFunction): Promise<void> {
+  async procesarDevolucion(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const { id } = req.params;
+      const { id } = req.validated!.params as IdParam;
       const operadorId = req.user!.id;
+      const solicitudDevuelta = await solicitudService.devolver(id, operadorId);
 
-      const solicitudDevuelta = await solicitudService.devolver(
-        (Number(id)),
-         operadorId
-        );
       if (!solicitudDevuelta) {
         res.status(404).json({ ok: false, message: "Solicitud no encontrada" });
-        return
+        return;
       }
 
       res.status(200).json({
         ok: true,
-        message:
-          "Devolución asentada de forma exitosa. El equipo vuelve a estar DISPONIBLE.",
+        message: "Devolución asentada de forma exitosa. El equipo vuelve a estar DISPONIBLE.",
         data: solicitudDevuelta,
       });
     } catch (error) {
@@ -171,29 +141,20 @@ class SolicitudController {
     }
   }
 
-  // GET /api/solicitudes/resumen
   async obtenerResumenDashboard(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const resumen = await solicitudService.obtenerResumenDashboard();
-
-      res.status(200).json({
-        ok: true,
-        data: resumen,
-      });
+      res.status(200).json({ ok: true, data: resumen });
     } catch (error) {
       next(error);
     }
   }
-  // GET /api/solicitudes/:id/historial
-  async obtenerHistorial(req: Request<{ id: string }>, res: Response, next: NextFunction): Promise<void> {
-    try {
-      const { id } = req.params;
-      const historial = await solicitudService.obtenerHistorial(Number(id));
 
-      res.status(200).json({
-        ok: true,
-        data: historial,
-      });
+  async obtenerHistorial(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { id } = req.validated!.params as IdParam;
+      const historial = await solicitudService.obtenerHistorial(id);
+      res.status(200).json({ ok: true, data: historial });
     } catch (error) {
       next(error);
     }

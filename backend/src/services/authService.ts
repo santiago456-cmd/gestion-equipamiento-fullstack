@@ -14,7 +14,7 @@ import { env } from '../config/env.js';
 const usuarioRepository = new UsuarioRepository();
 
 // 2. LE ASIGNAMOS UN VALOR POR DEFECTO PARA LOS TESTS (Evita errores de firma de token)
-const JWT_SECRET = process.env.JWT_SECRET || 'secreto_super_seguro_para_pruebas_123'; 
+const JWT_SECRET = env.jwtSecret; 
 const CONFIRMATION_TOKEN_EXPIRY= '24h';
 const RESET_TOKEN_EXPIRY= '30m';
 
