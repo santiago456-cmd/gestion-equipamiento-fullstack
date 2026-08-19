@@ -1,88 +1,70 @@
 import { Request, Response, NextFunction } from 'express';
 import { authService } from '../services/authService.js';
-
-interface RegisterBody{
-  nombre: string;
-  email: string;
-  password: string
-}
-
-interface LoginBody{
-  email: string;
-  password: string;
-}
-
-interface RecuperarBody{
-  email: string;
-}
-
-interface RestablecerBody{
-  token: string;
-  nuevaContrasena: string;
-}
+import type {
+  RegisterInput, LoginInput, ConfirmarCuentaParams,
+  RecuperarContrasenaInput, RestablecerContrasenaInput,
+} from '../schemas/authSchemas.js';
 
 class AuthController {
-  async register(req: Request<{}, {}, RegisterBody>, res: Response, next: NextFunction): Promise<void> {
+  async register(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const usuarioCreado = await authService.registrar(req.body);
+      const body = req.validated!.body as RegisterInput;
+      const usuarioCreado = await authService.registrar(body);
       res.status(201).json({
         ok: true,
-        message: 'Usuario registrado exitosamente. Revisa tu correo para confirmar la cuenta.',
-        data: usuarioCreado
-      });
-    } catch (error) {
-      next(error); // Delega el fallo al middleware de errores centralizado
-    }
-  }
-
-  async login(req: Request<{}, {}, LoginBody>, res: Response, next: NextFunction): Promise<void>{
-    try {
-      const { email, password } = req.body;
-      const dataSesion = await authService.login(email, password);
-      
-      res.status(200).json({
-        ok: true,
-        message: 'Inicio de sesión exitoso.',
-        ...dataSesion
+        message: 'Usuario registrado exitosamente. Revisá tu correo para confirmar la cuenta.',
+        data: usuarioCreado,
       });
     } catch (error) {
       next(error);
     }
   }
 
-  async confirmarCuenta(req: Request<{token:string}>, res: Response, next: NextFunction): Promise<void>{
+  async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const {token} = req.params;
-      const resultado = await authService.confirmarCuenta(token)
+      const { email, password } = req.validated!.body as LoginInput;
+      const dataSesion = await authService.login(email, password);
+
       res.status(200).json({
-        ok: true, ...resultado
-      })
+        ok: true,
+        message: 'Inicio de sesión exitoso.',
+        ...dataSesion,
+      });
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 
-  async solicitarRecuperacion(req: Request<{}, {}, RecuperarBody>, res: Response, next: NextFunction): Promise<void>{
+  async confirmarCuenta(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      await authService.solicitarRecuperacion(req.body.email);
-      res.status(200).json({
-        ok: true, 
-        message: 'Si el correo electronico esta registrado, vas a recibir un enlace para restablecer tu contraseña.'
-      })
+      const { token } = req.validated!.params as ConfirmarCuentaParams;
+      const resultado = await authService.confirmarCuenta(token);
+      res.status(200).json({ ok: true, ...resultado });
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 
-  async restablecerContrasena(req: Request<{}, {}, RestablecerBody>, res: Response, next: NextFunction): Promise<void>{
+  async solicitarRecuperacion(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      await authService.restablecerContrasena(req.body.token, req.body.nuevaContrasena);
+      const { email } = req.validated!.body as RecuperarContrasenaInput;
+      await authService.solicitarRecuperacion(email);
       res.status(200).json({
-        ok: true, 
-        message: 'Contraseña actualizada exitosamente.'
-      })
+        ok: true,
+        message: 'Si el correo electrónico está registrado, vas a recibir un enlace para restablecer tu contraseña.',
+      });
     } catch (error) {
-      next(error)
+      next(error);
+    }
+  }
+
+  async restablecerContrasena(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { token, nuevaContrasena } = req.validated!.body as RestablecerContrasenaInput;
+      await authService.restablecerContrasena(token, nuevaContrasena);
+      res.status(200).json({ ok: true, message: 'Contraseña actualizada exitosamente.' });
+    } catch (error) {
+      next(error);
     }
   }
 }

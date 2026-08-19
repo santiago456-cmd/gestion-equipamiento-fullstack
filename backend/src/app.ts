@@ -1,3 +1,4 @@
+import "./instrumentation.js"
 import express, {Express, Request, Response} from "express";
 import { env } from "./config/env.js";
 import { corsMiddleware } from "./middlewares/corsMiddleware.js";

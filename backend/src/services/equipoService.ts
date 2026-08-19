@@ -1,6 +1,7 @@
 import { EquipoRepository } from "../repositories/EquipoRepository.js";
 import type { Equipo } from "../models/Equipo.js";
 import type { WhereOptions, Attributes } from "sequelize";
+import type { ListarEquiposQuery } from "../schemas/equipoSchemas.js";
 
 interface ObtenerDisponiblesQuery{
   categoria?: string
@@ -13,7 +14,7 @@ class EquipoService {
     this.equipoRepo = new EquipoRepository();
   }
 
-  async obtenerDisponibles(query: ObtenerDisponiblesQuery): Promise<Equipo[]> {
+  async obtenerDisponibles(query: ListarEquiposQuery): Promise<Equipo[]> {
     const { categoria } = query;
     const filtros: WhereOptions<Attributes<Equipo>> = { estado: 'disponible' };
     

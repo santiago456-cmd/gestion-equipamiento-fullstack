@@ -1,15 +1,15 @@
 import { Request, Response, NextFunction } from 'express';
 import { equipoService } from '../services/equipoService.js';
+import type { ListarEquiposQuery } from '../schemas/equipoSchemas.js';
 
 class EquipoController {
-  
-  // GET /api/equipos
-  async listarEquipos(req:Request, res: Response, next: NextFunction): Promise<void> {
+  async listarEquipos(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const equipos = await equipoService.obtenerDisponibles(req.query);
+      const query = req.validated!.query as ListarEquiposQuery;
+      const equipos = await equipoService.obtenerDisponibles(query);
       res.status(200).json({
         ok: true,
-        data: equipos
+        data: equipos,
       });
     } catch (error) {
       next(error);
