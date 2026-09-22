@@ -112,6 +112,31 @@ services:
       - jaeger
       - loki
 
+  backend:
+    build:
+      context: .
+      target: dev
+    container_name: container_equipo_backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/dist
+    environment:
+      DB_HOST: db
+      DB_PORT: "5432"
+      REDIS_HOST: redis
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      otel-collector:
+        condition: service_started
+
 volumes:
   postgres_data:
     driver: local

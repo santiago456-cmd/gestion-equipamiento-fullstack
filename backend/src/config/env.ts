@@ -11,13 +11,16 @@ const optionalPort = (defaultValue: number) =>
   );
 
 const envSchema = z.object({
-    NODE_ENV: z.enum(['development', 'test', 'produccion']).default('development'),
+    NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
     PORT: optionalPort(3000),
     APP_NAME: z.string().default('api-solicitudes-equipamientos'),
     CORS_ORIGIN: z.string().default('http://localhost:5173'),
 
     JWT_SECRET: z.string().min(16, 'JWT_SECRET debe tener al menos 16 caracteres'),
     JWT_EMAIL_SECRET: z.string().min(16, 'JWT_EMAIL_SECRET debe tener al menos 16 caracteres'),
+
+    AUTH_RATE_LIMIT_MAX: optionalPort(10),
+    API_RATE_LIMIT_MAX: optionalPort(300),
 
     DB_HOST: z.string().min(1),
     DB_PORT: optionalPort(5432),
@@ -55,6 +58,11 @@ export const env = {
     corsOrigin: rawEnv.CORS_ORIGIN,
     jwtSecret: rawEnv.JWT_SECRET,
     jwtEmailSecret: rawEnv.JWT_EMAIL_SECRET,
+    nodeEnv: rawEnv.NODE_ENV,
+    rateLimit: {
+        authMax: rawEnv.AUTH_RATE_LIMIT_MAX,
+        apiMax: rawEnv.API_RATE_LIMIT_MAX,
+    },
     db: {
         host: rawEnv.DB_HOST,
         port: rawEnv.DB_PORT,

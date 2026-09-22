@@ -11,7 +11,7 @@ const JWT_EMAIL_SECRET = process.env.JWT_EMAIL_SECRET || 'secreto_email_para_pru
 describe('Pruebas de Edición de Perfil de Usuario', () => {
   let app: Express;
   let server: Server;
-  let token: string;
+  let agent: ReturnType<typeof request.agent>;
   let usuarioId: number;
 
   beforeAll(async () => {
@@ -33,11 +33,11 @@ describe('Pruebas de Edición de Perfil de Usuario', () => {
     );
     await request(app).get(`/api/auth/confirmar/${confirmationToken}`);
 
-    const login = await request(app).post('/api/auth/login').send({
+    agent = request.agent(app);
+    await agent.post('/api/auth/login').send({
       email: 'perfil_test@test.com',
       password: 'Password123',
     });
-    token = login.body.token;
   });
 
   afterAll(async () => {
@@ -51,9 +51,8 @@ describe('Pruebas de Edición de Perfil de Usuario', () => {
   });
 
   it('Debería actualizar el nombre exitosamente (200)', async () => {
-    const res = await request(app)
+    const res = await agent
       .patch('/api/usuarios/me')
-      .set('Authorization', `Bearer ${token}`)
       .send({ nombre: 'Usuario Renombrado' });
 
     expect(res.status).toBe(200);
@@ -68,18 +67,16 @@ describe('Pruebas de Edición de Perfil de Usuario', () => {
       rol: 'usuario',
     });
 
-    const res = await request(app)
+    const res = await agent
       .post('/api/usuarios/me/email')
-      .set('Authorization', `Bearer ${token}`)
       .send({ nuevoEmail: 'otro_usuario@test.com' });
 
     expect(res.status).toBe(409);
   });
 
   it('Debería solicitar el cambio de email exitosamente (200)', async () => {
-    const res = await request(app)
+    const res = await agent
       .post('/api/usuarios/me/email')
-      .set('Authorization', `Bearer ${token}`)
       .send({ nuevoEmail: 'nuevo_correo@test.com' });
 
     expect(res.status).toBe(200);
@@ -108,21 +105,23 @@ describe('Pruebas de Edición de Perfil de Usuario', () => {
   });
 
   it('Debería rechazar cambiar la contraseña con la clave actual incorrecta (401)', async () => {
-    const res = await request(app)
+    const res = await agent
       .post('/api/usuarios/me/password')
-      .set('Authorization', `Bearer ${token}`)
       .send({ passwordActual: 'ClaveIncorrecta', passwordNueva: 'NuevaClave456' });
 
     expect(res.status).toBe(401);
   });
 
-  it('Debería cambiar la contraseña exitosamente y permitir login con la nueva clave (200)', async () => {
-    const resCambio = await request(app)
+  it('Debería cambiar la contraseña exitosamente, invalidar la sesión actual y permitir login con la nueva clave (200)', async () => {
+    const resCambio = await agent
       .post('/api/usuarios/me/password')
-      .set('Authorization', `Bearer ${token}`)
       .send({ passwordActual: 'Password123', passwordNueva: 'NuevaClave456' });
 
     expect(resCambio.status).toBe(200);
+
+    // La sesión del agente debería quedar invalidada (blacklist) tras el cambio de contraseña
+    const resIntentoPosterior = await agent.patch('/api/usuarios/me').send({ nombre: 'Post cambio' });
+    expect(resIntentoPosterior.status).toBe(401);
 
     const resLogin = await request(app)
       .post('/api/auth/login')

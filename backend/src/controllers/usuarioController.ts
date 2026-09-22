@@ -4,6 +4,8 @@ import type {
   ActualizarPerfilInput, SolicitarCambioEmailInput,
   ConfirmarCambioEmailParams, CambiarContrasenaInput,
 } from '../schemas/usuarioSchemas.js';
+import { blacklistToken } from '../config/redisClient.js';
+import { AUTH_COOKIE_NAME, buildAuthCookieOptions } from '../config/cookieConfig.js';
 
 class UsuarioController {
   async actualizarPerfil(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -47,6 +49,12 @@ class UsuarioController {
     try {
       const { passwordActual, passwordNueva } = req.validated!.body as CambiarContrasenaInput;
       await usuarioService.cambiarcontrasena(req.user!.id, passwordActual, passwordNueva);
+
+      // invalida la sesion actual - fuerza a loguearse de nuevo con la nueva contraseña
+      if (req.user!.jti && req.user!.exp){
+        await blacklistToken(req.user!.jti, req.user!.exp)
+      }
+      res.clearCookie(AUTH_COOKIE_NAME, buildAuthCookieOptions(0))
       res.status(200).json({ ok: true, message: 'Contraseña actualizada exitosamente.' });
     } catch (error) {
       next(error);

@@ -145,4 +145,15 @@ export class SolicitudRepository extends BaseRepository<Solicitud> {
       ],
     });
   }
+
+  async findByUsuarioIdEnRango(usuarioId: number, desde: string, hasta: string): Promise<Solicitud[]> {
+  return this.model.findAll({
+    where: {
+      usuarioId,
+      fechaRetiro: { [Op.between]: [desde, hasta] },
+    },
+    include: [{ model: Equipo, as: 'equipo', attributes: ['nombre', 'categoria'] }],
+    order: [['fechaRetiro', 'ASC']],
+  });
+}
 }

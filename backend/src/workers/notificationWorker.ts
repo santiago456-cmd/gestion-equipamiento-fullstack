@@ -4,6 +4,9 @@ import { logger } from "../config/logger.js";
 import { requestContext } from "../middlewares/requestContext.js";
 import { sendWelcomeEmail, sendConfirmationEmail, sendPasswordResetEmail, sendEmailChangeConfirmation } from "../services/EmailService.js";
 import type { NotificationJobData } from "../queues/notificationsQueue.js";
+import { setupAssociations } from "../models/associations.js";
+
+setupAssociations()
 
 const worker = new Worker<NotificationJobData>(
     'notifications',
