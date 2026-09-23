@@ -5,6 +5,16 @@ import { mockSolicitudes, mockEquipos, mockHistorial, mockResumen } from '../../
 const baseURL = 'http://localhost:3000/api';
 
 export async function mockApi(page: Page) {
+  // 👇 nuevo: sin esto, el bootstrap de AuthContext se cuelga esperando una red real
+  await page.route(`${baseURL}/auth/me`, async (route) => {
+    const stored = await page.evaluate(() => localStorage.getItem('usuario'));
+    if (!stored) {
+      await route.fulfill({ status: 401, json: { ok: false } });
+      return;
+    }
+    await route.fulfill({ json: { ok: true, usuario: JSON.parse(stored) } });
+  });
+
   await page.route(`${baseURL}/solicitudes?*`, async (route) => {
     await route.fulfill({
       json: { data: mockSolicitudes, totalItems: mockSolicitudes.length, page: 1, limit: 5 },
@@ -50,7 +60,6 @@ export async function mockApi(page: Page) {
       await route.fulfill({
         json: {
           ok: true,
-          token: 'fake-jwt-token',
           usuario: { id: 2, nombre: 'Carla Gómez', email: 'carla@dds.com', rol: 'usuario' },
         },
       });
