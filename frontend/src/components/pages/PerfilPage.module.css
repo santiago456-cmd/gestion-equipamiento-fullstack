@@ -1,0 +1,29 @@
+/* src/components/pages/PerfilPage.module.css */
+.pageHeader {
+  margin-bottom: var(--space-lg);
+}
+
+.pageTitle {
+  font-size: var(--font-size-headline-lg);
+  font-weight: 600;
+  color: var(--color-on-surface);
+  margin-bottom: var(--space-xs);
+}
+
+.pageSubtitle {
+  font-size: var(--font-size-body-base);
+  color: var(--color-secondary);
+}
+
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: 560px;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-md);
+}

@@ -1,0 +1,15 @@
+# frontend/docker-compose.yml
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Se "hornea" en el bundle en build-time (Vite no lee env vars en runtime).
+        # Por default apunta a un backend corriendo en localhost — ajustalo en tu
+        # .env si tu backend está en otro host/puerto.
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:3000/api}
+    container_name: container_equipo_frontend
+    restart: unless-stopped
+    ports:
+      - "${FRONTEND_PORT:-5173}:80"

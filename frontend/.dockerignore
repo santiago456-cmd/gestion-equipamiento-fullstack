@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+playwright-report
+test-results
+e2e/.auth
+storybook-static
+.storybook
+e2e
+*.md
+.git
+.env
