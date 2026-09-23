@@ -1,5 +1,6 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { randomUUID } from 'node:crypto';
 import { UsuarioRepository } from "../repositories/UsuarioRepository.js";
 import type { RolUsuario } from '../models/Usuario.js';
 import { ValidationError } from '../errors/ValidationError.js';
@@ -29,6 +30,7 @@ interface JwtPayloadData{
   id: number;
   nombre: string;
   rol: RolUsuario;
+  jti: string
 }
 
 interface EmailTokenPayload {
@@ -100,7 +102,8 @@ class AuthService {
     const payload: JwtPayloadData = {
       id: usuario.id,
       nombre: usuario.nombre,
-      rol: usuario.rol
+      rol: usuario.rol, 
+      jti: randomUUID()
     };
 
     // 4. Firmar Token digital con expiración (ej: 2 horas)
@@ -190,6 +193,16 @@ class AuthService {
     const salt = await bcrypt.genSalt(10)
     const hash = await bcrypt.hash(nuevaContrasena, salt)
     await usuarioRepository.updateInstance(usuario, {passwordHash: hash})
+  }
+
+  async obtenerUsuarioActual(id: number){
+    const usuario = await usuarioRepository.findById(id)
+    if (!usuario){
+      throw new NotFoundError('El usuario ya no existe')
+    }
+
+    const {passwordHash, ...usuarioSeguro} = usuario.get({plain: true})
+    return usuarioSeguro
   }
 }
 

@@ -4,6 +4,10 @@ import type {
   RegisterInput, LoginInput, ConfirmarCuentaParams,
   RecuperarContrasenaInput, RestablecerContrasenaInput,
 } from '../schemas/authSchemas.js';
+import { blacklistToken } from '../config/redisClient.js';
+import { AUTH_COOKIE_NAME, buildAuthCookieOptions } from '../config/cookieConfig.js';
+
+const TOKEN_MAX_AGE_MS = 2 * 60 * 60 * 1000 // 2h, debe coincidir con expiresIn del jwt.sign
 
 class AuthController {
   async register(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -23,15 +27,32 @@ class AuthController {
   async login(req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
       const { email, password } = req.validated!.body as LoginInput;
-      const dataSesion = await authService.login(email, password);
+      const { usuario, token} = await authService.login(email, password);
+
+      res.cookie(AUTH_COOKIE_NAME, token, buildAuthCookieOptions(TOKEN_MAX_AGE_MS))
 
       res.status(200).json({
         ok: true,
         message: 'Inicio de sesión exitoso.',
-        ...dataSesion,
+        usuario,
       });
     } catch (error) {
       next(error);
+    }
+  }
+
+  async logout(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const user = req.user! // authMiddleware ya garantizo que existe y es valido
+
+      if (user.jti && user.exp){
+        await blacklistToken(user.jti, user.exp)
+      }
+
+      res.clearCookie(AUTH_COOKIE_NAME, buildAuthCookieOptions(0))
+      res.status(200).json({ok: true, message: 'Sesion cerrada exitosamente.'})
+    } catch (error) {
+      next(error)
     }
   }
 
@@ -65,6 +86,15 @@ class AuthController {
       res.status(200).json({ ok: true, message: 'Contraseña actualizada exitosamente.' });
     } catch (error) {
       next(error);
+    }
+  }
+
+  async me(req: Request, res: Response, next: NextFunction): Promise<void>{
+    try {
+      const usuario = await authService.obtenerUsuarioActual(req.user!.id)
+      res.status(200).json({ok: true, usuario})
+    } catch (error) {
+      next(error)
     }
   }
 }

@@ -4,6 +4,7 @@ import { RolUsuario } from "../../models/Usuario.js";
 export interface AuthUser extends JwtPayload {
     id: number;
     rol: RolUsuario;
+    jti?: string;
     email?: string;
 }
 

@@ -9,16 +9,25 @@ import { errorMiddleware } from "./middlewares/errorMiddleware.js";
 import { setupAssociations } from "./models/associations.js";
 import { fileURLToPath } from "node:url";
 import { requestContextMiddleware } from "./middlewares/requestContext.js";
+import { apiLimiter } from "./middlewares/rateLimiter.js";
+import cookieParser from 'cookie-parser'
 import { logger } from "./config/logger.js";
 import { usuarioRoutes } from "./routes/usuarioRoutes.js";
+import { scheduleMonthlyReports } from "./queues/reportsQueue.js";
 
 
 export function createApp(): Express {
     const app = express();
 
+    if (env.nodeEnv === "production") {
+        app.set("trust proxy", 1);
+    }
+
     app.use(express.json());
+    app.use(cookieParser())
     app.use(corsMiddleware);
     app.use(requestContextMiddleware)
+    app.use(apiLimiter); // defensa en profundidad para TODA la API
 
     app.get("/", (req: Request, res: Response) => {
         res.json({
@@ -62,6 +71,10 @@ function main(): void {
 
     app.listen(env.port, () => {
         console.log(`🚀 ${env.appName} escuchando en http://localhost:${env.port}`);
+    });
+
+    scheduleMonthlyReports().catch((err) => {
+        console.error('No se pudo programar el scheduler de reportes mensuales:', err);
     });
 }
 

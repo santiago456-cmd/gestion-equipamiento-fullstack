@@ -1,0 +1,20 @@
+/* src/components/pages/ConfirmarCuentaPage.module.css */
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-background);
+  padding: var(--space-lg);
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+}
+
+.card {
+  background-color: var(--color-surface-container-lowest);
+  border: 1px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+}

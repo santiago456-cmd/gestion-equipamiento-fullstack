@@ -1,0 +1,43 @@
+/* src/components/ui/ResultState.module.css */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-xl) var(--space-lg);
+  gap: var(--space-sm);
+}
+
+.icon {
+  font-size: 48px;
+  margin-bottom: var(--space-sm);
+}
+
+.loading {
+  color: var(--color-secondary);
+}
+
+.success {
+  color: var(--color-success);
+}
+
+.error {
+  color: var(--color-error);
+}
+
+.title {
+  font-size: var(--font-size-headline-lg);
+  font-weight: 600;
+  color: var(--color-on-surface);
+}
+
+.description {
+  font-size: var(--font-size-body-base);
+  color: var(--color-secondary);
+  line-height: var(--line-height-body-base);
+  max-width: 420px;
+}
+
+.action {
+  margin-top: var(--space-md);
+}

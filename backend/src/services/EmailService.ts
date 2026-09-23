@@ -48,3 +48,20 @@ export async function sendEmailChangeConfirmation(to: string, nombre: string, to
         html: `<p>Hola ${nombre},</p><p>Solicitaste cambiar el correo electronico de tu cuenta a esta direccion. Confirma el cambio haciendo click en el siguiente enlace (valido por 2 horas):</p><p><a href="${link}">${link}</a></p><p>Si no fuiste vos quien lo solicito, podes ignorar este mensaje y tu correo actual seguira sin cambios.</p>`,
     })
 }
+
+export async function sendReportEmail(
+  to: string,
+  nombre: string,
+  asunto: string,
+  cuerpoHtml: string,
+  pdfBuffer: Buffer,
+  nombreArchivo: string,
+): Promise<void> {
+  await transporter.sendMail({
+    from: env.smtp.from,
+    to,
+    subject: asunto,
+    html: `<p>Hola ${nombre},</p>${cuerpoHtml}`,
+    attachments: [{ filename: nombreArchivo, content: pdfBuffer, contentType: 'application/pdf' }],
+  });
+}
